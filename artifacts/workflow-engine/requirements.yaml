@@ -1,0 +1,11 @@
+packages:
+  "framer-motion": "For stunning layout animations, pipeline dots, staggered lists, and tab transitions"
+  "date-fns": "For formatting audit trail timestamps cleanly"
+  "clsx": "Utility for constructing class names conditionally"
+  "tailwind-merge": "Utility to safely merge tailwind classes"
+  "lucide-react": "For beautiful crisp icons across the dashboard"
+
+notes:
+  - "The app uses a dark enterprise theme heavily focused on data visualization and clear hierarchy."
+  - "We use direct fetch for the workflow run endpoint as explicitly requested, managing local loading states for the pipeline animation."
+  - "Framer Motion is used to simulate the sequential execution of the 7 AI agents when the 'Run' button is pressed."
