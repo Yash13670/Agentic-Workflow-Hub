@@ -15,7 +15,7 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **Validation**: Zod (`zod/v4`), `drizzle-zod`
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
-- **AI**: Gemini via Replit AI Integrations (`@workspace/integrations-gemini-ai`)
+- **AI**: Gemini via Custom AI Integrations (`@workspace/integrations-gemini-ai`)
 
 ## Structure
 
@@ -96,4 +96,4 @@ React + Vite frontend dashboard. Connects to `/api/workflow/run`.
 
 ### `lib/integrations-gemini-ai` (`@workspace/integrations-gemini-ai`)
 
-Gemini AI client via Replit AI Integrations proxy. Auto-configured via `AI_INTEGRATIONS_GEMINI_BASE_URL` and `AI_INTEGRATIONS_GEMINI_API_KEY`.
+Gemini AI client via Custom AI Integrations proxy. Auto-configured via `AI_INTEGRATIONS_GEMINI_BASE_URL` and `AI_INTEGRATIONS_GEMINI_API_KEY`.
