@@ -2,6 +2,8 @@
 
 A multi-agent AI system that automatically recovers failed high-value payments in real time, reroutes transactions through backup rails (including stablecoins), and anchors every decision on-chain for regulatory-grade auditability
 
+ResilientPay doesn’t assign problems to humans — it resolves them in real time.
+
 ---
 
 ## 📸 Demo
@@ -33,13 +35,13 @@ Raw Payment Failure Logs / Bank API Errors
 │  [2] Severity Classification Agent                      │
 │       └─ Assigns P1 / P2 based on impact  │
 │                   │                                  │
-│  [3] Task Assignment Agent                          │
+│  [3] Execution Router Agent                          │
 │       └─ Workload-balanced distribution to engineers      │
 │                   │                                  │
-│  [4] SLA Monitoring Agent                           │
+│  [4] Failure Timing Analyzer                          │
 │       └─ Detects SLA breaches and at-risk incidents     │
 │                   │                                  │
-│  [5] Bottleneck Detection Agent                     │
+│  [5] System Load Analyzer                    │
 │       └─ Flags overloaded engineers               │
 │                   │                                  │
 │  [6] Optimization Agent (Auto Rerouting/Escalation) │
@@ -128,16 +130,16 @@ Raw Payment Failure Logs / Bank API Errors
 - Prioritizes incidents based on monetary risk
 - Sorts incidents by severity before processing
 
-### Agent 3 — Task Assignment Agent
-- Distributes incidents across 6 team members using workload balancing
+### Agent 3 — Execution Router Agent
+- Routes transactions to optimal recovery path (bank / stablecoin rail)
 - Always assigns to the team member with the lowest current load score
 
-### Agent 4 — SLA Monitoring Agent
+### Agent 4 — Failure Timing Analyzer
 - Calculates hours remaining vs SLA window for each Incident
 - **BREACHED**: SLA ≤ 24h and < 6h remaining → flags + fires alert
 - **AT_RISK**: > 70% of SLA window elapsed → fires warning alert
 
-### Agent 5 — Bottleneck Detection Agent
+### Agent 5 — System Load Analyzer
 - Detects any team member with > 1.5× average task count, or 2+ delayed tasks
 - Fires a bottleneck alert with severity rating
 
@@ -161,14 +163,14 @@ Raw Payment Failure Logs / Bank API Errors
 
 ```json
 {
-  "tasks": [
+  "recoveries": [
     {
       "id": "Incident-1",
-      "title": "Fix auth service vulnerability",
+      ""title": "Recover failed $200,000 payment",
       "description": "...",
       "priority": "critical",
       "priorityScore": 100,
-      "assignedTo": "Alice Chen",
+      "assignedTo": "Autonomous Recovery Engine",
       "deadline": "2026-03-22T10:00:00.000Z",
       "status": "escalated",
       "slaHours": 24,
@@ -198,12 +200,14 @@ Raw Payment Failure Logs / Bank API Errors
       "modelUsed": "advanced"
     }
   ],
+
  "recovery": {
   "transactionId": "0xA82F...",
   "status": "SUCCESS",
   "rerouteMethod": "Stablecoin Rail",
   "amountRecovered": 200000
- }
+ },
+
   "model_used": "advanced",
   "impact": {
     "timeSavedHours": 17.5,
@@ -282,7 +286,7 @@ Open `http://localhost:5173` in your browser.
 curl -X POST http://localhost:8080/api/workflow/run \
   -H "Content-Type: application/json" \
   -d '{
-    "meetingNotes": "We need to urgently fix the login bug - critical issue blocking all users. Sarah should deploy the hotfix asap. Bob needs to update the documentation by end of week."
+    "paymentLog": "Error 504 - Gateway Timeout - Merchant ID 8829 - Amount $200,000"
   }'
 ```
 
