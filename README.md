@@ -1,12 +1,12 @@
-# 🤖 Autonomous Enterprise Workflow Engine using Agentic AI
+# 🤖 Autonomous Payment Incident Resolution using Agentic AI (ResilientPay)
 
-A full-stack hackathon prototype demonstrating a **multi-agent AI system** that autonomously manages enterprise workflows — from raw meeting input through task execution, SLA monitoring, self-correction, and auditability — **without any human intervention**.
+A full-stack hackathon prototype demonstrating a multi-agent AI system that autonomously manages payment failure incidents in fintech systems — from raw incident input through detection, severity classification, assignment, SLA monitoring, self-correction, and auditability — without any human intervention.
 
 ---
 
 ## 📸 Demo
 
-> Paste meeting notes → Click "Run Autonomous Pipeline" → Watch 7 AI agents process, assign, monitor, detect issues, fix them, and log every decision.
+> Paste payment incident logs / alerts → Click "Run Autonomous Pipeline" → Watch 7 AI agents detect, classify, assign, monitor, resolve, and log every decision.
 
 ---
 
@@ -19,20 +19,20 @@ Meeting Notes Input
 ┌─────────────────────────────────────────────────────┐
 │              Central Orchestrator (Pipeline)         │
 │                                                     │
-│  [1] Task Extraction Agent                          │
+│  [1] Incident Extraction Agent                          │
 │       └─ Gemini AI (complex) / Rule-based (simple)  │
 │                   │                                  │
-│  [2] Priority Assignment Agent                      │
-│       └─ Scores tasks 0–100, assigns priority level  │
+│  [2] Severity Classification Agent                      │
+│       └─ Assigns P1 / P2 based on impact  │
 │                   │                                  │
 │  [3] Task Assignment Agent                          │
-│       └─ Workload-balanced distribution to team      │
+│       └─ Workload-balanced distribution to engineers      │
 │                   │                                  │
 │  [4] SLA Monitoring Agent                           │
-│       └─ Detects SLA breaches and at-risk tasks      │
+│       └─ Detects SLA breaches and at-risk incidents     │
 │                   │                                  │
 │  [5] Bottleneck Detection Agent                     │
-│       └─ Flags overloaded team members               │
+│       └─ Flags overloaded engineers               │
 │                   │                                  │
 │  [6] Optimization Agent (Auto Rerouting/Escalation) │
 │       └─ IF delayed → reassign / IF critical → escalate │
@@ -42,7 +42,7 @@ Meeting Notes Input
 └─────────────────────────────────────────────────────┘
         │
         ▼
-  JSON Output: tasks, alerts, audit_trail, impact metrics
+  JSON Output: incidents, alerts, audit_trail, impact metrics
 ```
 
 ---
@@ -53,11 +53,12 @@ Meeting Notes Input
 |---|---|
 | **Autonomy** | All 7 agents run sequentially without human input |
 | **Multi-Agent Collaboration** | Each agent passes structured JSON to the next |
-| **Self-Correction** | Delayed tasks are auto-reassigned; critical ones escalated |
+| **Self-Correction** | Delayed incidents are auto-reassigned; critical ones escalated |
 | **Auditability** | Every decision logged with agent name, input, output, timestamp |
 | **Model Routing** | Short inputs → lightweight (rule-based); long inputs → Gemini AI |
-| **SLA Tracking** | Deadlines monitored, at-risk tasks flagged automatically |
-| **Impact Metrics** | Time saved, manual effort %, SLA breaches avoided |
+| **SLA Tracking** | Deadlines monitored, at-risk incidents flagged automatically |
+| **Bottleneck Detection** | Identifies overloaded engineers in real time |
+| **Severity Classification** | Assigns P1 / P2 based on incident impact |
 
 ---
 
@@ -108,22 +109,23 @@ Meeting Notes Input
 
 ## 🤖 Agent Details
 
-### Agent 1 — Task Extraction Agent
-- Parses raw meeting notes into structured task objects
+### Agent 1 — Incident Extraction Agent
+- Parses raw payment logs or alerts into structured incident objects
 - **Model routing**: if input > 300 chars or 60+ words → uses Gemini AI; else → rule-based keyword matching
-- Falls back to rule-based on any AI failure (graceful degradation)
+- Fallback ensures reliability 
 
-### Agent 2 — Priority Assignment Agent
-- Scores each task 0–100 based on urgency keywords and SLA window
-- Assigns `critical` / `high` / `medium` / `low` priority
-- Sorts tasks by score before passing downstream
+### Agent 2 — Severity Classification Agent
+- Assigns severity levels:
+- P1 → Critical (system-wide payment failure)
+- P2 → Partial failure
+- Sorts incidents by severity before processing
 
 ### Agent 3 — Task Assignment Agent
-- Distributes tasks across 6 team members using workload balancing
+- Distributes incidents across 6 team members using workload balancing
 - Always assigns to the team member with the lowest current load score
 
 ### Agent 4 — SLA Monitoring Agent
-- Calculates hours remaining vs SLA window for each task
+- Calculates hours remaining vs SLA window for each Incident
 - **BREACHED**: SLA ≤ 24h and < 6h remaining → flags + fires alert
 - **AT_RISK**: > 70% of SLA window elapsed → fires warning alert
 
@@ -132,12 +134,15 @@ Meeting Notes Input
 - Fires a bottleneck alert with severity rating
 
 ### Agent 6 — Optimization Agent (Self-Correction)
-- **IF** task is delayed AND priority is `critical` → escalates to management
-- **IF** task is delayed AND priority is lower → auto-reassigns to least-loaded available member
+- **IF** delayed AND priority is `critical` → escalates to management
+- **IF** delayed AND priority is lower → auto-reassigns to least-loaded available member
 - Demonstrates autonomous self-correction without human input
 
 ### Agent 7 — Audit Agent
-- Writes a final summary entry to the audit trail
+- Logs all actions:
+- Agent decisions
+- Inputs/outputs
+- Timestamps
 - Computes impact metrics: time saved, effort reduced, SLA breaches avoided
 
 ---
@@ -148,7 +153,7 @@ Meeting Notes Input
 {
   "tasks": [
     {
-      "id": "task-1",
+      "id": "Incident-1",
       "title": "Fix auth service vulnerability",
       "description": "...",
       "priority": "critical",
@@ -174,11 +179,11 @@ Meeting Notes Input
   "audit_trail": [
     {
       "id": "audit-1",
-      "agent": "Task Extraction Agent",
-      "action": "EXTRACTED task: \"Fix auth service vulnerability\"",
+      "agent": "Incident Extraction Agent",
+      "action": "EXTRACTED Incident: \"Fix auth service vulnerability\"",
       "taskId": "task-1",
       "input": { "source": "meeting_notes" },
-      "output": { "task": { ... } },
+      "output": { "Incident": { ... } },
       "timestamp": "2026-03-21T10:00:00.000Z",
       "modelUsed": "advanced"
     }
@@ -292,8 +297,8 @@ Based on a 7-task workflow run, the system demonstrates:
 | Time saved (manual task processing) | **~17.5 hours** |
 | Manual effort reduced | **85%** |
 | SLA breaches detected & acted upon | Automatic |
-| Tasks auto-reassigned without human input | ✅ |
-| Tasks escalated to management | ✅ |
+| Incidetnts auto-reassigned without human input | ✅ |
+| Incidents escalated to management | ✅ |
 | Human interventions required | **0** |
 
 ---
